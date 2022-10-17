@@ -1,3 +1,4 @@
+from distutils.sysconfig import customize_compiler
 from tokenize import Name
 from unicodedata import name
 from urllib import response
@@ -12,6 +13,8 @@ from  rest_framework.viewsets import  ModelViewSet
 
 from rest_framework import status
 from rest_framework.response  import Response
+from django.http import JsonResponse
+import json
 
 
 
@@ -31,7 +34,7 @@ class UserRegisterDetails(ModelViewSet):
         serializer= UserRegisterSerilizer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({"Success": "msb blablabla"} )
+            return Response( serializer.data)
 
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -39,17 +42,16 @@ class UserRegisterDetails(ModelViewSet):
 
 
 class CustomerRegisterDetails(ModelViewSet):
-    queryset = ""
+    queryset =''
     serializer_class = CustomerRegisterSerilizer
+    
     def list(self, request):
-        queryset = CustomerRegister.objects.all()
-        serializer = CustomerRegisterSerilizer(queryset, many=True)
-        return Response(serializer.data)
-
-
-
+        customers = CustomerRegister.objects.all()
+        serializer = CustomerRegisterSerilizer(customers, many=True)
+        return Response(serializer.data,)
+        
 class CookRegisterDetails(ModelViewSet):
-    queryset = ""
+    queryset = CookRegister.objects.raw('SELECT *  FROM app_CookRegister')
     serializer_class = CookRegisterSerilizer
 
 
@@ -73,6 +75,25 @@ class CookRegisterDetails(ModelViewSet):
 
 
 
+'''
+class CustomerRegisterDetails(ModelViewSet):
+    queryset =''
+    serializer_class = CustomerRegisterSerilizer
+    
+    def list(self, request):
+        queryset = CustomerRegister.objects.all()
+        
+        for i in queryset:
+            print(i.user.name)
+            print(i.user.address)
+        context ={
+            'hh':'nn'
+        }
+        serializer = CustomerRegisterSerilizer(queryset, many=True)
+        return Response(serializer.data)
+
+
+'''
 
 
 
@@ -106,8 +127,20 @@ class CookRegisterDetails(ModelViewSet):
 
 
 
+''''
+class CustomerRegisterDetails(ModelViewSet):
+    queryset = ""
+    serializer_class = CustomerRegisterSerilizer
+    def list(self, request):
+        queryset = CustomerRegister.objects.all()
+        serializer = CustomerRegisterSerilizer(queryset, many=True)
+        return Response(serializer.data)
+'''
 
 
+
+
+'''
 
 
 
@@ -206,8 +239,8 @@ class CookRegisterDetails(ModelViewSet):
 
 #,data=serializer.data, status=status.HTTP_201_CREATED,
 
-
-''' name = serializer.validated_data['name']
+'''
+''' name = serializer.validated_data['name']'''
             # address = serializer.validated_data['address']
             # address = serializer.validated_data['address']
             

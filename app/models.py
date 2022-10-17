@@ -21,7 +21,7 @@ class UserRegister(models.Model):
     role = models.CharField(max_length=20,choices=usertype)
 
     def __str__(self):
-        return self.role
+        return self.name
 
 
 
@@ -37,8 +37,8 @@ class CookRegister(models.Model):
 
 
 class CustomerRegister(models.Model):
-    user = models.ForeignKey(UserRegister,on_delete=models.CASCADE, null=True,blank=True,)
     job = models.CharField(max_length=20)
-    pncode = models.IntegerField()
+    pincode = models.IntegerField()
+    user = models.ForeignKey(UserRegister,on_delete=models.CASCADE, null=True,blank=True,)
     
  
